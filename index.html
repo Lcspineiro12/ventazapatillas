@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Zapas Shop — Tienda de Zapatillas</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container header__inner">
+            <h1 class="logo">Zapas<span>Shop</span></h1>
+
+            <div class="header__actions">
+                <div class="search">
+                    <input id="searchInput" type="search" placeholder="Buscar modelos..." />
+                </div>
+                <select id="categorySelect" class="select">
+                    <option value="all">Todas las categorías</option>
+                </select>
+                <button id="cartBtn" class="btn btn--ghost" aria-label="Abrir carrito">
+                    🛒 <span id="cartCount">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <div class="hero__content">
+                <h2>Las últimas <span>zapas</span> al mejor precio</h2>
+                <p>Ediciones clásicas y lanzamientos. Envíos a todo el país.</p>
+            </div>
+        </section>
+
+        <section class="filters">
+            <div class="chips" id="brandChips"></div>
+            <div class="size-filter">
+                <label for="sizeSelect">Talle:</label>
+                <select id="sizeSelect" class="select">
+                    <option value="any">Cualquiera</option>
+                    <option>38</option>
+                    <option>39</option>
+                    <option>40</option>
+                    <option>41</option>
+                    <option>42</option>
+                    <option>43</option>
+                    <option>44</option>
+                </select>
+            </div>
+            <div class="sort">
+                <label for="sortSelect">Ordenar:</label>
+                <select id="sortSelect" class="select">
+                    <option value="relevance">Relevancia</option>
+                    <option value="priceAsc">Precio: menor a mayor</option>
+                    <option value="priceDesc">Precio: mayor a menor</option>
+                    <option value="nameAsc">Nombre A-Z</option>
+                </select>
+            </div>
+        </section>
+
+        <section id="grid" class="grid"></section>
+    </main>
+
+    <!-- Drawer Carrito -->
+    <aside id="cartDrawer" class="drawer" aria-hidden="true">
+        <div class="drawer__backdrop" id="drawerBackdrop"></div>
+        <div class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+            <header class="drawer__header">
+                <h3 id="cartTitle">Tu carrito</h3>
+                <button id="closeDrawer" class="icon-btn" aria-label="Cerrar">✕</button>
+            </header>
+
+            <div id="cartItems" class="cart-items"></div>
+
+            <div class="cart-summary">
+                <div class="row">
+                    <span>Subtotal</span><strong id="subtotal">$0</strong>
+                </div>
+                <div class="row">
+                    <span>Envío</span>
+                    <select id="shippingSelect" class="select small">
+                        <option value="pickup">Retiro en local (Gratis)</option>
+                        <option value="standard">Estándar — $4.000</option>
+                        <option value="express">Express — $6.500</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <span>Descuento</span><strong id="discount">$0</strong>
+                </div>
+                <div class="row total">
+                    <span>Total</span><strong id="total">$0</strong>
+                </div>
+
+                <div class="payments">
+                    <button id="payWhatsapp" class="btn btn--whatsapp">Finalizar por WhatsApp</button>
+                    <button id="payCard" class="btn btn--primary">Pagar con tarjeta</button>
+                </div>
+                <p class="hint">💡 3 y 6 cuotas con tarjeta* (demo).
+                    <code>..</code>.
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Modal Tarjeta (Demo) -->
+    <div id="cardModal" class="modal" aria-hidden="true">
+        <div class="modal__backdrop"></div>
+        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="cardTitle">
+            <header class="modal__header">
+                <h3 id="cardTitle">Pagar con tarjeta</h3>
+                <button id="closeCard" class="icon-btn" aria-label="Cerrar">✕</button>
+            </header>
+            <form id="cardForm" class="card-form">
+                <div class="field">
+                    <label>Nombre en la tarjeta</label>
+                    <input required name="cardName" placeholder="Nombre y apellido" />
+                </div>
+                <div class="field">
+                    <label>Número</label>
+                    <input required name="cardNumber" inputmode="numeric" maxlength="19"
+                        placeholder="XXXX XXXX XXXX XXXX" />
+                </div>
+                <div class="row-2">
+                    <div class="field">
+                        <label>Vencimiento</label>
+                        <input required name="cardExp" placeholder="MM/AA" maxlength="5" />
+                    </div>
+                    <div class="field">
+                        <label>CVV</label>
+                        <input required name="cardCvv" inputmode="numeric" maxlength="4" placeholder="***" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Cuotas</label>
+                    <select name="installments">
+                        <option value="1">1 cuota</option>
+                        <option value="3">3 cuotas</option>
+                        <option value="6">6 cuotas</option>
+                    </select>
+                </div>
+                <button class="btn btn--primary" type="submit">Pagar ahora</button>
+                <p class="hint">* Este es un formulario de demostración sin cobro real.</p>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container footer__inner">
+            <p>© <span id="year"></span> Zapas Shop. Derechos reservados.</p>
+            <nav class="footer__links">
+                <a href="#" aria-label="Políticas de cambios">Cambios y devoluciones</a>
+                <a href="#" aria-label="Términos y condiciones">Términos</a>
+                <a href="#" aria-label="Privacidad">Privacidad</a>
+            </nav>
+        </div>
+    </footer>
+
+    <script src="app.js" defer></script>
+</body>
+
+</html>
